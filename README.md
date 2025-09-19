@@ -16,6 +16,70 @@ The system would integrate with existing player stamina, confidence, and fatigue
 
 The Dynamic Crowd Momentum System adds excitement, unpredictability, and authenticity to gameplay. Benefits include greater immersion, deeper strategic play, and better representation of the college football atmosphere. Risks include potential frustration for players who feel disadvantaged as the away team. To address this, the system would be optional (toggleable in settings) and carefully tuned so no momentum swing is overwhelming. Additionally, the boosts would remain subtle, rewarding skillful play rather than replacing it. By transforming the crowd from a background element into an interactive gameplay factor, this feature would deliver a more authentic and thrilling college football experience that mirrors the heart and soul of the sport.
 
+## Task 2: Class Diagram Design
+
+### Task Overview
+
+Following the successful feature proposal, we moved into the technical design phase using object-oriented programming principles. This task involved creating a comprehensive class diagram to visualize the system architecture before implementation.
+
+**What we learned:**
+
+- How to translate feature requirements into object-oriented design
+- Creating class diagrams to visualize system relationships
+- Applying design patterns and SOLID principles
+- Planning system architecture before coding
+
+### Object-Oriented Design Process
+
+The Dynamic Crowd Momentum System required breaking down the feature into a collection of interacting objects. Using C++ as our target language, we needed to design classes that would handle crowd behavior, momentum tracking, player effects, and game state management.
+
+The design process focused on:
+
+- **High-level relationships** between system components
+- **Interface design** for how classes interact with each other
+- **Data encapsulation** and responsibility separation
+- **Extensibility** for future feature additions
+
+### Class Diagram
+
+The complete system architecture is documented in `class-diagram.png`, which shows the relationships between all major components of the Dynamic Crowd Momentum System.
+
+#### Key System Components
+
+**Core System Classes:**
+
+- `CrowdMomentumSystem`: Main controller that orchestrates all momentum-related functionality
+- `MomentumMeter`: Tracks and manages momentum levels for both teams
+- `GameState`: Maintains current game information (quarter, score, time, etc.)
+
+**Crowd Simulation:**
+
+- `Crowd`: Represents overall crowd behavior and noise generation
+- `CrowdSection`: Individual crowd sections with team affiliations
+- `Stadium`: Contains crowd and venue-specific information
+
+**Game Entities:**
+
+- `Player`: Individual players affected by momentum changes
+- `Team`: Team entities with roster and composure management
+- `Coach`: Leadership role capable of activating composure mode
+
+**Effect System:**
+
+- `GameEvent`: Triggers for momentum changes (touchdowns, interceptions, etc.)
+- `MomentumEffect`: Applied effects that modify player performance
+- `TeamComposureMode`: System for mitigating negative crowd effects
+
+### System Architecture Benefits
+
+The class diagram reveals a well-structured system with clear separation of concerns:
+
+- **Modular Design**: Each class has specific responsibilities
+- **Composition over Inheritance**: Complex behaviors built from simpler components
+- **Event-Driven Architecture**: GameEvents trigger system responses
+- **Strategy Pattern**: Different effect types and crowd behaviors
+- **State Management**: Clear tracking of game and momentum states
+
 ## Task 4: Live Bugfix
 
 ### Task Overview
