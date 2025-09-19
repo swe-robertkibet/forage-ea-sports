@@ -1,6 +1,8 @@
 #include <string>
-#include<iostream>
+#include <iostream>
 #include <utility>
+#include <vector>
+#include <climits>
 
 class Item {
 private:
@@ -36,16 +38,15 @@ public:
         return price;
     }
 
-    bool is_match(const std::string &other) {
+    bool is_match(const std::string &other) const {
         return name == other;
     }
 };
 
 class Inventory {
 private:
-    Item *items[20];
+    std::vector<Item> items;
     float total_money;
-    int item_count;
 
     static void display_data(Item &item) {
         std::cout << "\nItem name: " << item.get_name();
@@ -56,8 +57,7 @@ private:
 public:
     Inventory() :
             items{},
-            total_money{0},
-            item_count{0} {
+            total_money{0} {
 
     }
 
@@ -74,8 +74,7 @@ public:
         std::cout << "Enter price: ";
         std::cin >> price;
 
-        items[item_count] = new Item(name, quantity, price);
-        item_count++;
+        items.emplace_back(name, quantity, price);
     }
 
     void sell_item() {
@@ -84,8 +83,8 @@ public:
         std::cout << "\nEnter item name: ";
         std::cin >> item_to_check;
 
-        for (int i = 0; i < item_count; i++) {
-            if (items[i]->is_match(item_to_check)) {
+        for (size_t i = 0; i < items.size(); i++) {
+            if (items[i].is_match(item_to_check)) {
                 remove_item(i);
                 return;
             }
@@ -93,33 +92,40 @@ public:
         std::cout << "\nThis item is not in your Inventory";
     }
 
-    void remove_item(int item_index) {
+    void remove_item(size_t item_index) {
         int input_quantity;
-        Item *item = items[item_index];
+        Item &item = items[item_index];
         std::cout << "\nEnter number of items to sell: ";
         std::cin >> input_quantity;
 
-        int quantity = item->get_quantity();
+        int quantity = item.get_quantity();
         if (input_quantity <= quantity) {
-            float price = item->get_price();
+            float price = item.get_price();
             float money_earned = price * input_quantity;
-            item->set_quantity(quantity - input_quantity);
+            int new_quantity = quantity - input_quantity;
+            item.set_quantity(new_quantity);
             std::cout << "\nItems sold";
             std::cout << "\nMoney received: " << money_earned;
             total_money += money_earned;
+
+            // lets remove item completely if quantity reaches 0
+            if (new_quantity == 0) {
+                items.erase(items.begin() + item_index);
+                std::cout << "\nItem completely removed from inventory.";
+            }
         } else {
             std::cout << "\nCannot sell more items than you have.";
         }
     }
 
     void list_items() {
-        if (item_count == 0) {
+        if (items.empty()) {
             std::cout << "\nInventory empty.";
             return;
         }
 
-        for (int i = 0; i < item_count; i++) {
-            display_data(*items[i]);
+        for (size_t i = 0; i < items.size(); i++) {
+            display_data(items[i]);
             std::cout << "\n";
         }
     }
